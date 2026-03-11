@@ -13,7 +13,7 @@ sudo docker compsoe up -d
 ```bash
 sudo docker compsoe down
 ```
-login: adre
+login: 123
 passwd: 123
 
 ![После авторизации](img/1.png)
