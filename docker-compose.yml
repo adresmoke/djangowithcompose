@@ -1,0 +1,31 @@
+services:
+  web:
+    build: .
+    ports:
+      - "80:8000"
+    environment:
+      - DATABASE_URL=postgresql://django_user:django_pass@db_1:5432/django_db
+      - DEBUG=1
+      - SECRET_KEY=django-insecure-your-secret-key-here
+      - DJANGO_SUPERUSER_USERNAME=123
+      - DJANGO_SUPERUSER_EMAIL=123@123.ru
+      - DJANGO_SUPERUSER_PASSWORD=123    
+    depends_on:
+      - db_1
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py createsuperuser --noinput || true &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  db_1:
+    image: postgres:16-alpine
+    container_name: db_1
+    environment:
+      POSTGRES_DB: django_db
+      POSTGRES_USER: django_user
+      POSTGRES_PASSWORD: django_pass
+    volumes:
+      - ./.postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
