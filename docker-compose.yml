@@ -28,7 +28,7 @@ services:
       POSTGRES_PASSWORD: django_pass
     volumes:
       - ./.postgres_data:/var/lib/postgresql/data
-    healthcheck:  # ← Healthcheck для ожидания!
+    healthcheck:
       test: ["CMD-SHELL", "pg_isready -U django_user -d django_db"]
       interval: 10s
       timeout: 5s
