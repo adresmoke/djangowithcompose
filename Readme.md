@@ -7,6 +7,7 @@
 Как запустить проект у себя:
 ```bash
 git clone git@github.com:adresmoke/djangowithcompose.git
+cd djangowithcompose
 sudo docker compsoe up -d
 ```
 Остановить и удалить контейнер:

@@ -11,7 +11,8 @@ services:
       - DJANGO_SUPERUSER_EMAIL=123@123.ru
       - DJANGO_SUPERUSER_PASSWORD=123    
     depends_on:
-      - db_1
+      db_1:
+        condition: service_healthy
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
@@ -27,5 +28,11 @@ services:
       POSTGRES_PASSWORD: django_pass
     volumes:
       - ./.postgres_data:/var/lib/postgresql/data
+    healthcheck:  # ← Healthcheck для ожидания!
+      test: ["CMD-SHELL", "pg_isready -U django_user -d django_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     ports:
       - "5431:5432"
